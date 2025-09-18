@@ -1,0 +1,5 @@
+defaultProject: dbt-learn-465213
+defaultLocation: southamerica-east1
+defaultDataset: dataform
+defaultAssertionDataset: dataform_assertions
+dataformCoreVersion: 3.0.0
