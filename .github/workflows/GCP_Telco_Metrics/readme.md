@@ -4,7 +4,7 @@ This directory contains GitHub Actions workflows and Python scripts for generati
 
 ## Daily Workflows
 
-### Daily Gross Data Generation (`gross.yml`)
+### DAILY GROSS (`gross.yml`)
 
 This workflow runs the `Daily_Gross.py` script daily to generate customer data and upload it to Google Cloud Storage.
 
@@ -58,7 +58,7 @@ This workflow runs the `Daily_Gross.py` script daily to generate customer data a
 
 To manually trigger the Daily Gross workflow:
 1. Go to the "Actions" tab in the GitHub repository
-2. Select "Daily Gross Data Generation" workflow
+2. Select "DAILY GROSS" workflow
 3. Click "Run workflow" button
 4. Select the branch and click "Run workflow"
 
