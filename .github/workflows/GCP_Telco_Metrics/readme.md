@@ -32,20 +32,20 @@ This workflow runs the `Daily_Gross.py` script daily to generate customer data a
 2. **Grant necessary permissions**:
    ```bash
    # BigQuery permissions
-   gcloud projects add-iam-policy-binding telco-metrics-473116 \
-     --member="serviceAccount:github-actions@telco-metrics-473116.iam.gserviceaccount.com" \
+   gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+     --member="serviceAccount:github-actions@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
      --role="roles/bigquery.dataViewer"
    
    # Cloud Storage permissions
-   gcloud projects add-iam-policy-binding telco-metrics-473116 \
-     --member="serviceAccount:github-actions@telco-metrics-473116.iam.gserviceaccount.com" \
+   gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+     --member="serviceAccount:github-actions@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
      --role="roles/storage.objectCreator"
    ```
 
 3. **Create and download the JSON key**:
    ```bash
    gcloud iam service-accounts keys create key.json \
-     --iam-account=github-actions@telco-metrics-473116.iam.gserviceaccount.com
+     --iam-account=github-actions@YOUR_PROJECT_ID.iam.gserviceaccount.com
    ```
 
 4. **Add the secret to GitHub**:
