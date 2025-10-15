@@ -1,4 +1,4 @@
-name: Daily Gross Data Generation
+name: DAILY GROSS
 
 on:
   schedule:
