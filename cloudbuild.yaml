@@ -10,4 +10,5 @@ steps:
 ]
 options:
   # Logging is disabled to reduce log output; enable for debugging if needed.
-  logging: NONE
+  logging: GCS_ONLY
+logsBucket: gs://telco-metrics-raw/LOGS
