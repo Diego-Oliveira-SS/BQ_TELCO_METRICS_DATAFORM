@@ -1,14 +1,16 @@
 steps:
-
-- name: 'deploy-cloud-function-csv-to-bigquery'
-  args: ['functions', 'deploy', 'cloud_functions',
-         '--source=Cloud_Functions',
-         '--runtime=python3.11',
-         '--trigger-http',
-         '--region=us-east1',
-         '--entry-point=start_workflow',
-]
+  - id: "deploy-cloud-function-csv-to-bigquery"
+    name: "gcr.io/google.com/cloudsdktool/cloud-sdk:slim"   # <- IMAGEM VÁLIDA
+    entrypoint: gcloud
+    args:
+      - functions
+      - deploy
+      - cloud_functions                # nome da sua função
+      - --region=us-east1
+      - --runtime=python311            # troque p/ python310 se necessário
+      - --source=Cloud_Functions       # sua pasta no repo
+      - --entry-point=start_workflow
+      - --trigger-http
+      - --allow-unauthenticated        # remova se quiser proteger
 options:
-  # Logging is disabled to reduce log output; enable for debugging if needed.
-  logging: GCS_ONLY
-logsBucket: gs://telco-metrics-raw/LOGS
+  logging: CLOUD_LOGGING_ONLY
