@@ -2,8 +2,8 @@ name: DAILY CHURN
 
 on:
   schedule:
-    # Run daily at 00:10 UTC (adjust timezone as needed)
-    - cron: '10 0 * * *'
+    # Run daily at 04:10 UTC - 01:10 America/Sao_Paulo (sem horário de verão)
+    - cron: '10 4 * * *'
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
