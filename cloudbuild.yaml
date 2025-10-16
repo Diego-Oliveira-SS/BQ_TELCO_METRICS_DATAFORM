@@ -5,12 +5,11 @@ steps:
     args:
       - functions
       - deploy
-      - cloud_functions                # nome da sua função
+      - storage-to-bigquery           # nome da sua função
       - --region=us-east1
       - --runtime=python311            # troque p/ python310 se necessário
       - --source=Cloud_Functions       # sua pasta no repo
       - --entry-point=start_workflow
       - --trigger-http
-      - --allow-unauthenticated        # remova se quiser proteger
 options:
   logging: CLOUD_LOGGING_ONLY
