@@ -1,7 +1,6 @@
 import csv, io, random, uuid, pandas as pd
 from google.cloud import bigquery, storage
-from datetime import date
-
+from datetime import date, datetime
 
 
 # Script para popular tabela ATH (interações) 
@@ -97,7 +96,7 @@ for _, c in clientes.iterrows():
             aht_seg,
             dt_interacao.year,  # ano
             dt_interacao.month, # mes
-            TODAY,               # DT_INGESTAO
+            datetime.now(),               # DT_INGESTAO
             "Daily_ATH"          # FONTE
         ])
 
