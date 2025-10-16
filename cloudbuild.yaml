@@ -1,0 +1,10 @@
+steps:
+
+- name: 'csv-storage-to-bigquery'
+  args: ['functions', 'deploy', 'cloud_functions',
+         '--source=Cloud_Functions',
+         '--runtime=python311',
+         '--trigger-http',
+         '--region=us-east1',
+         '--entry-point=start_workflow',
+]
