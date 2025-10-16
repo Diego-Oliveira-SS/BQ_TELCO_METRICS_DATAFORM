@@ -19,7 +19,7 @@ def gcs_to_bq_gross(event):
     uri = f"gs://{bucket}/{name}"   # ex.: gs://telco-metrics-raw/gross/gross_2025-10-08.csv
 
     #verify if the file is in the 'gross' folder
-    if name.startswith("gross/"):
+    if name.startswith("gross/gross"):
         print(f"Processing file: {uri}")
         
         # Configure the load job
