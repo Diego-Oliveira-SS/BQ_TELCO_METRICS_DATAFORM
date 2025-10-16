@@ -2,8 +2,8 @@ name: DAILY GROSS
 
 on:
   schedule:
-    # Run daily at 00:00 UTC (adjust timezone as needed)
-    - cron: '0 0 * * *'
+    # Run daily at 04:00 UTC = 01:00  America/Sao_Paulo (sem horário de verão)
+    - cron: '0 4 * * *'
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
