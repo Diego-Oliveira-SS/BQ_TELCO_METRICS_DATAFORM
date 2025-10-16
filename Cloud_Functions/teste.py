@@ -1,2 +1,1 @@
 # deploy ci/cd test
-# Refactor cloud functions for data ingestion: update datetime handling in Daily_ATH, adjust date formatting in Daily_Payments, and implement new functions for ATH, Billing, and Payments data processing. --- IGNORE ---
