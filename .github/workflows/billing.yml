@@ -22,8 +22,12 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas pandas-gbq google-cloud-bigquery google-cloud-bigquery-storage pyarrow db-dtypes
-      
+          pip install \
+            pandas pandas-gbq \
+            google-cloud-bigquery google-cloud-bigquery-storage \
+            google-cloud-storage \
+            pyarrow db-dtypes
+                  
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
