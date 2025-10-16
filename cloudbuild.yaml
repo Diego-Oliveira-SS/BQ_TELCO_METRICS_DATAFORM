@@ -1,10 +1,13 @@
 steps:
 
-- name: 'csv-storage-to-bigquery'
+- name: 'deploy-cloud-function-csv-to-bigquery'
   args: ['functions', 'deploy', 'cloud_functions',
          '--source=Cloud_Functions',
-         '--runtime=python311',
+         '--runtime=python3.11',
          '--trigger-http',
          '--region=us-east1',
          '--entry-point=start_workflow',
 ]
+options:
+  # Logging is disabled to reduce log output; enable for debugging if needed.
+  logging: NONE
