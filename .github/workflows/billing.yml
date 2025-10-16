@@ -2,8 +2,8 @@ name: DAILY BILLING
 
 on:
   schedule:
-    # Run daily at 00:20 UTC (adjust timezone as needed)
-    - cron: '20 0 * * *'
+    # Run daily at 04:20 UTC - 01:20 America/Sao_Paulo (sem horário de verão)
+    - cron: '20 4 * * *'
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
