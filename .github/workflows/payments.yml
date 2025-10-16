@@ -2,8 +2,8 @@ name: DAILY PAYMENTS
 
 on:
   schedule:
-    # Run daily at 00:30 UTC (adjust timezone as needed)
-    - cron: '30 0 * * *'
+    # Run daily at 04:30 UTC - 01:30 America/Sao_Paulo (sem horário de verão)
+    - cron: '30 4 * * *'
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
