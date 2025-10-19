@@ -13,8 +13,7 @@ BILLING_TB   = "billing"
 
 TODAY = date.today()
 csv_name = f"billing_{TODAY}.csv"
-# TODAY_DAY = date.today().day
-TODAY_DAY = 8
+TODAY_DAY = TODAY.day
 ciclo_venc = [(1,8), (8,15), (15,21), (21, 28), (25,11)]
 
 month_cycle = []
