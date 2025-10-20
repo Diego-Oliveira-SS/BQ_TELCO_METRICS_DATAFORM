@@ -28,7 +28,8 @@ def gcs_to_bq_gross(event):
         autodetect=False,  # Use existing destination table schema when appending
         ignore_unknown_values=True,
     )
-
+    
+    print(f"Loading data into {table_ref}...")
     #before_rows = client.get_table(table_ref).num_rows
 
     load_job = client.load_table_from_uri(
@@ -39,11 +40,12 @@ def gcs_to_bq_gross(event):
 
     load_job.result()  # Waits for the job to complete.
     
-    
+    print(f"Load job finished for {table_ref}.")
     #after_rows = client.get_table(table_ref).num_rows
     #loaded_rows = max(0, after_rows - before_rows)
     #print(f"Loaded {loaded_rows} rows into {table_ref}. Total rows now {after_rows}.")
 
     # Move the processed file to the LOADED folder
-    os.system(f"gsutil mv gs://{bucket}/{file_name} gs://{bucket}/LOADED/")
-    print(f"Moved file gs://{bucket}/{file_name} to gs://{bucket}/LOADED/")
+    folder = table_id = name.split("/")[0]               # ex.: gross
+    os.system(f"gsutil mv gs://{bucket}/{file_name} gs://{bucket}/{folder}/LOADED/")
+    print(f"Moved file gs://{bucket}/{file_name} to gs://{bucket}/{folder}/LOADED/")
