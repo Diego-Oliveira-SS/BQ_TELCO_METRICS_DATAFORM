@@ -8,15 +8,18 @@ def gcs_to_bq_gross(event):
     #table_id = "customers"
 
     name = event.data["name"]                           # ex.: gross/gross_loja_2025-10-20.csv
-    table_id = name.split("/")[-1][0:-15]               # gross_loja_2025-10-20.csv  --> gross_loja
+    table_id = name.split("/")[-1][0:-15]
+                 # gross_loja_2025-10-20.csv  --> gross_loja
     table_ref = f"{project_id}.{dataset_id}.{table_id}"
+    print(table_id) 
+    print(table_ref)
 
     client = bigquery.Client(project=project_id)
 
     data = event.data               # capture event data dictionary
     bucket = data["bucket"]         # ex.: telco-metrics-raw
     file_name = data["name"]        # ex.: gross/gross_2025-10-08.csv
-    uri = f"gs://{bucket}/{file_name}"   # ex.: gs://telco-metrics-raw/gross/gross_2025-10-08.csv
+    uri = f"gs://{bucket}/{file_name}"   # ex.: gs://telco-metrics-raw/gross/gross_loja_2025-10-08.csv
     
     print(f"Processing file: {uri}")
     
