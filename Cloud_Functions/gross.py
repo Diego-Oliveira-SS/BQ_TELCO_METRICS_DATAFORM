@@ -3,6 +3,8 @@ from google.cloud import bigquery
 import os
 
 def gcs_to_bq_gross(event):
+    print("Starting GCS to BigQuery gross data load...")
+    
     project_id = "telco-metrics-473116"
     dataset_id = "telco_metrics_raw"
     #table_id = "customers"
@@ -49,6 +51,8 @@ def gcs_to_bq_gross(event):
     #print(f"Loaded {loaded_rows} rows into {table_ref}. Total rows now {after_rows}.")
 
     # Move the processed file to the LOADED folder
-    folder = table_id = name.split("/")[0]               # ex.: gross
+    folder = name.split("/")[0]               # ex.: gross
     os.system(f"gsutil mv gs://{bucket}/{file_name} gs://{bucket}/{folder}/LOADED/")
     print(f"Moved file gs://{bucket}/{file_name} to gs://{bucket}/{folder}/LOADED/")
+
+    # telco-metrics-raw/gross/LOADED
