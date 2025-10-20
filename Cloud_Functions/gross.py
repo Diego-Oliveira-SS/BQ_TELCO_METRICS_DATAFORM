@@ -29,7 +29,7 @@ def gcs_to_bq_gross(event):
         ignore_unknown_values=True,
     )
 
-    before_rows = client.get_table(table_ref).num_rows
+    #before_rows = client.get_table(table_ref).num_rows
 
     load_job = client.load_table_from_uri(
         uri,
@@ -37,12 +37,12 @@ def gcs_to_bq_gross(event):
         job_config=job_config,
     )  
 
-    load_job.result()  # Waits for the job to complete.
+    #load_job.result()  # Waits for the job to complete.
     
     
-    after_rows = client.get_table(table_ref).num_rows
-    loaded_rows = max(0, after_rows - before_rows)
-    print(f"Loaded {loaded_rows} rows into {table_ref}. Total rows now {after_rows}.")
+    #after_rows = client.get_table(table_ref).num_rows
+    #loaded_rows = max(0, after_rows - before_rows)
+    #print(f"Loaded {loaded_rows} rows into {table_ref}. Total rows now {after_rows}.")
 
     # Move the processed file to the LOADED folder
     os.system(f"gsutil mv gs://{bucket}/{name} gs://{bucket}/LOADED/")
