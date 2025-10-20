@@ -28,7 +28,7 @@ def gcs_to_bq_gross(event):
         source_format=bigquery.SourceFormat.CSV,
         skip_leading_rows=1,  # Assuming the first row is a header
         write_disposition=bigquery.WriteDisposition.WRITE_APPEND,  # Append to existing table
-        autodetect=False,  # Use existing destination table schema when appending
+        autodetect=True,  # Use existing destination table schema when appending
         ignore_unknown_values=True,
     )
     
