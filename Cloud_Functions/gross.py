@@ -15,8 +15,8 @@ def gcs_to_bq_gross(event):
 
     data = event.data               # capture event data dictionary
     bucket = data["bucket"]         # ex.: telco-metrics-raw
-    name = data["name"]             # ex.: gross/gross_2025-10-08.csv
-    uri = f"gs://{bucket}/{name}"   # ex.: gs://telco-metrics-raw/gross/gross_2025-10-08.csv
+    file_name = data["name"]        # ex.: gross/gross_2025-10-08.csv
+    uri = f"gs://{bucket}/{file_name}"   # ex.: gs://telco-metrics-raw/gross/gross_2025-10-08.csv
     
     print(f"Processing file: {uri}")
     
@@ -37,7 +37,7 @@ def gcs_to_bq_gross(event):
         job_config=job_config,
     )  
 
-    #load_job.result()  # Waits for the job to complete.
+    load_job.result()  # Waits for the job to complete.
     
     
     #after_rows = client.get_table(table_ref).num_rows
@@ -45,5 +45,5 @@ def gcs_to_bq_gross(event):
     #print(f"Loaded {loaded_rows} rows into {table_ref}. Total rows now {after_rows}.")
 
     # Move the processed file to the LOADED folder
-    os.system(f"gsutil mv gs://{bucket}/{name} gs://{bucket}/LOADED/")
-    print(f"Moved file gs://{bucket}/{name} to gs://{bucket}/LOADED/")
+    os.system(f"gsutil mv gs://{bucket}/{file_name} gs://{bucket}/LOADED/")
+    print(f"Moved file gs://{bucket}/{file_name} to gs://{bucket}/LOADED/")
