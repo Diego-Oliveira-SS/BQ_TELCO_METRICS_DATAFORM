@@ -4,7 +4,7 @@ import os
 
 def gcs_to_bq_gross(event):
     print("Starting GCS to BigQuery gross data load...")
-    
+
     project_id = "telco-metrics-473116"
     dataset_id = "telco_metrics_raw"
     #table_id = "customers"
@@ -25,12 +25,16 @@ def gcs_to_bq_gross(event):
     
     print(f"Processing file: {uri}")
     
+    # Get the existing table schema
+    table = client.get_table(table_ref)
+    schema = table.schema
+    
     # Configure the load job
     job_config = bigquery.LoadJobConfig(
         source_format=bigquery.SourceFormat.CSV,
         skip_leading_rows=1,  # Assuming the first row is a header
         write_disposition=bigquery.WriteDisposition.WRITE_APPEND,  # Append to existing table
-        autodetect=True,  # Use existing destination table schema when appending
+        schema=schema,  # Use existing table schema explicitly
         ignore_unknown_values=True,
     )
     
