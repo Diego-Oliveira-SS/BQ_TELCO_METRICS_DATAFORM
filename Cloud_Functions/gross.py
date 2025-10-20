@@ -1,11 +1,14 @@
 
 from google.cloud import bigquery
+import os
 
 def gcs_to_bq_gross(event):
     project_id = "telco-metrics-473116"
-    dataset_id = "telco_metrics_gold"
-    table_id = "customers"
+    dataset_id = "telco_metrics_raw"
+    #table_id = "customers"
 
+    name = event.data["name"]                           # ex.: gross/gross_loja_2025-10-20.csv
+    table_id = name.split("/")[-1][0:-15]               # gross_loja_2025-10-20.csv  --> gross_loja
     table_ref = f"{project_id}.{dataset_id}.{table_id}"
 
     client = bigquery.Client(project=project_id)
@@ -35,6 +38,12 @@ def gcs_to_bq_gross(event):
     )  
 
     load_job.result()  # Waits for the job to complete.
+    
+    
     after_rows = client.get_table(table_ref).num_rows
     loaded_rows = max(0, after_rows - before_rows)
     print(f"Loaded {loaded_rows} rows into {table_ref}. Total rows now {after_rows}.")
+
+    # Move the processed file to the LOADED folder
+    os.system(f"gsutil mv gs://{bucket}/{name} gs://{bucket}/LOADED/")
+    print(f"Moved file gs://{bucket}/{name} to gs://{bucket}/LOADED/")

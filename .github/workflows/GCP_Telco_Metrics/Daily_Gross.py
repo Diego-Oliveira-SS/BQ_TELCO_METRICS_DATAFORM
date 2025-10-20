@@ -7,7 +7,7 @@ from decimal import Decimal, ROUND_HALF_UP
 # Variáveis (ajustar conforme o projeto)
 PROJECT_ID = "telco-metrics-473116"         # ex.: telco-metrics-473116
 BUCKET_NAME = "telco-metrics-raw"       # ex.: gs://telco-metrics-raw
-DATASET_ID = "telco_metrics_gold"
+DATASET_ID = "telco_metrics_curated"    # ex.: telco_metrics_curated
 CLIENTES_TABLE = "customers"
 BATCH_SIZE = 100
 
@@ -89,31 +89,33 @@ for i in range(1, SIZE + 1):
         "A" # Status (A=Ativo, I=Inativo)       
     ))
 
-# Debug
-# for registro in base_clientes:
-#     print(f"{registro}\n")
 
 
-# Gera CSV em memória
-output = io.StringIO()
-w = csv.writer(output)
-w.writerow([
-    "ID_CLIENTE", "NOME_CLIENTE", "ID_PLANO", "NOME_PLANO", "VALOR_PLANO",
-    "UF", "DDD", "CANAL_AQUISICAO", "ORIGEM_AQUISICAO", "CICLO_FATURAMENTO",
-    "VENCIMENTO", "TIPO_AQUISICAO", "DESCONTO", "DT_ENTRADA", "STATUS"
-])  
-for registro in base_clientes:
-    w.writerow(registro)
+# Gera um csv e envia para GCS para cada tipo de canal de aquisição
 
-csv_string = output.getvalue()
-output.close()
+for canal_tipo in canais:
+    output = io.StringIO()
+    w = csv.writer(output)
+    w.writerow([
+        "ID_CLIENTE", "NOME_CLIENTE", "ID_PLANO", "NOME_PLANO", "VALOR_PLANO",
+        "UF", "DDD", "CANAL_AQUISICAO", "ORIGEM_AQUISICAO", "CICLO_FATURAMENTO",
+        "VENCIMENTO", "TIPO_AQUISICAO", "DESCONTO", "DT_ENTRADA", "STATUS"
+    ])
+    # Filtra registros pelo canal de aquisição
+    for registro in base_clientes:
+        if registro[7] == canal_tipo:
+            w.writerow(registro)
 
-# Upload para GCS
-gcs = storage.Client(project=PROJECT_ID)
-bucket = gcs.bucket(BUCKET_NAME)
-blob = bucket.blob(f"gross/{csv_name}")
-blob.upload_from_string(csv_string, content_type="text/csv")
-print(f"Arquivo {csv_name} enviado para {BUCKET_NAME}/gross/")
+    csv_string = output.getvalue()
+    output.close()
+
+    # Upload para GCS
+    gcs = storage.Client(project=PROJECT_ID)
+    bucket = gcs.bucket(BUCKET_NAME)
+    canal_csv_name = f"gross_{canal_tipo}_{today}.csv"
+    blob = bucket.blob(f"gross/{canal_csv_name}")
+    blob.upload_from_string(csv_string, content_type="text/csv")
+    print(f"Arquivo {canal_csv_name} enviado para {BUCKET_NAME}/gross/")
 
 
 
