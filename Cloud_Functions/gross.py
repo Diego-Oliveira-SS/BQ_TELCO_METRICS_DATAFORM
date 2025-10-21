@@ -1,20 +1,15 @@
 
-from google.cloud import bigquery
-import os
+from google.cloud import bigquery, storage
 
 def gcs_to_bq_gross(event):
     print("Starting GCS to BigQuery gross data load...")
 
     project_id = "telco-metrics-473116"
     dataset_id = "telco_metrics_raw"
-    #table_id = "customers"
 
     name = event.data["name"]                           # ex.: gross/gross_loja_2025-10-20.csv
-    table_id = name.split("/")[-1][0:-15]
-                 # gross_loja_2025-10-20.csv  --> gross_loja
-    table_ref = f"{project_id}.{dataset_id}.{table_id}"
-    print(table_id) 
-    print(table_ref)
+    table_id = name.split("/")[-1][0:-15]               # gross_loja_2025-10-20.csv  --> gross_loja
+    table_ref = f"{project_id}.{dataset_id}.{table_id}" # ex.: telco-metrics-473116.telco_metrics_raw.gross_loja
 
     client = bigquery.Client(project=project_id)
 
@@ -39,7 +34,6 @@ def gcs_to_bq_gross(event):
     )
     
     print(f"Loading data into {table_ref}...")
-    #before_rows = client.get_table(table_ref).num_rows
 
     load_job = client.load_table_from_uri(
         uri,
@@ -50,13 +44,15 @@ def gcs_to_bq_gross(event):
     load_job.result()  # Waits for the job to complete.
     
     print(f"Load job finished for {table_ref}.")
-    #after_rows = client.get_table(table_ref).num_rows
-    #loaded_rows = max(0, after_rows - before_rows)
-    #print(f"Loaded {loaded_rows} rows into {table_ref}. Total rows now {after_rows}.")
+    
 
     # Move the processed file to the LOADED folder
-    folder = name.split("/")[0]               # ex.: gross
-    os.system(f"gsutil mv gs://{bucket}/{file_name} gs://{bucket}/{folder}/LOADED/")
-    print(f"Moved file gs://{bucket}/{file_name} to gs://{bucket}/{folder}/LOADED/")
 
-    # telco-metrics-raw/gross/LOADED
+    storage_client = storage.Client(project=project_id)
+    folder = name.split("/")[0]               # ex.: gross
+    destination_blob_name = f"{folder}/LOADED/{file_name.split('/')[-1]}"
+    bucket_obj = storage_client.bucket(bucket)
+    blob = bucket_obj.blob(file_name)
+    bucket_obj.copy_blob(blob, bucket_obj, destination_blob_name)
+    blob.delete()
+    print(f"Moved file gs://{bucket}/{file_name} to gs://{bucket}/{destination_blob_name}")
