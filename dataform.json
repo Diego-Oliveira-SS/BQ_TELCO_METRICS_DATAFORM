@@ -1,0 +1,13 @@
+{
+  "warehouse": "bigquery",
+  "defaultSchema": "telco_metrics",
+  "assertionSchema": "telco_metrics_assertions",
+  "defaultDatabase": "my_project_id",
+  "gcloudProjectId": "my_project_id",
+  "location": "US",
+  "incrementalTables": {
+    "enabled": true,
+    "uniqueKey": "id",
+    "partitionBy": "DATE(created_at)"
+  }
+}
