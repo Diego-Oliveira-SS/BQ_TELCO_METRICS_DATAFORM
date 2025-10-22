@@ -1,0 +1,6 @@
+{
+  "name": "bq_telco_metrics_dataform",
+  "warehouse": "bigquery",
+  "defaultSchema": "dataform",
+  "assertionSchema": "dataform_assertions"
+}
