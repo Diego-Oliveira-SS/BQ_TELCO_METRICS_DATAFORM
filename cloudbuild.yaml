@@ -1,0 +1,15 @@
+steps:
+  - id: "deploy-cloud-function-csv-to-bigquery"
+    name: "gcr.io/google.com/cloudsdktool/cloud-sdk:slim"   # <- IMAGEM VÁLIDA
+    entrypoint: gcloud
+    args:
+      - functions
+      - deploy
+      - storage-to-bigquery           # nome da sua função
+      - --region=us-east1
+      - --runtime=python312            # troque p/ python310 se necessário
+      - --source=Cloud_Functions       # sua pasta no repo
+      - --entry-point=start_workflow
+      - --trigger-http
+options:
+  logging: CLOUD_LOGGING_ONLY
