@@ -1,13 +1,6 @@
 {
+  "name": "bq_telco_metrics_dataform",
   "warehouse": "bigquery",
-  "defaultSchema": "telco_metrics",
-  "assertionSchema": "telco_metrics_assertions",
-  "defaultDatabase": "my_project_id",
-  "gcloudProjectId": "my_project_id",
-  "location": "US",
-  "incrementalTables": {
-    "enabled": true,
-    "uniqueKey": "id",
-    "partitionBy": "DATE(created_at)"
-  }
+  "defaultSchema": "dataform",
+  "assertionSchema": "dataform_assertions"
 }
