@@ -1,1 +1,0 @@
-# Teste de integração com GIT

@@ -1,5 +1,8 @@
-﻿{
+{
   "name": "bq_telco_metrics_dataform",
   "version": "1.0.0",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@dataform/core": "latest"
+  }
 }
