@@ -1,7 +1,7 @@
 config {
-    type: "table",
+    type: "view",
     schema: "dataform_demo"
 }
 
 SELECT
-  1 AS exemplo;
+  1 AS exemplo
