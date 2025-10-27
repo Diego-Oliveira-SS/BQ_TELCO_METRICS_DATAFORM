@@ -10,4 +10,4 @@ SELECT
   VALOR_BASE,
   STATUS_FATURA
 FROM
-  `telco-metrics-473116.telco_metrics_gold.billing`
+  `telco-metrics-473116.telco_metrics_curated.billing`

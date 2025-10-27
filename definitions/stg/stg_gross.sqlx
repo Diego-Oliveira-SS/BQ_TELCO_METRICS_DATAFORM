@@ -8,4 +8,4 @@ SELECT
   ID_CLIENTE,
   TIPO_AQUISICAO,
   PLANO
-FROM `telco-metrics-473116.telco_metrics_gold.gross`
+FROM `telco-metrics-473116.telco_metrics_curated.gross`

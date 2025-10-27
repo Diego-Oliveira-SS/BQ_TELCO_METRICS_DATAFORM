@@ -7,4 +7,4 @@ SELECT
   ID_CLIENTE,
   DT_CHURN,
   TIPO_CHURN
-FROM `telco-metrics-473116.telco_metrics_gold.churn`
+FROM `telco-metrics-473116.telco_metrics_curated.churn`

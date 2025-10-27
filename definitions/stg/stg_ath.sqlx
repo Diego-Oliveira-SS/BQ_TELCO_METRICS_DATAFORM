@@ -15,4 +15,4 @@ SELECT
   RESOLVIDO,
   RETENCAO
 FROM
-  `telco-metrics-473116.telco_metrics_gold.ath`
+  `telco-metrics-473116.telco_metrics_curated.ath`

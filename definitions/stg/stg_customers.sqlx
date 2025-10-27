@@ -11,4 +11,4 @@ SELECT
   UF,
   DDD,
   CANAL
-FROM `telco-metrics-473116.telco_metrics_gold.customers`
+FROM `telco-metrics-473116.telco_metrics_curated.customers`

@@ -10,4 +10,4 @@ SELECT
   DT_PAGAMENTO,
   VALOR_PAGO,
   FORMA_PAGAMENTO
-FROM `telco-metrics-473116.telco_metrics_gold.payments`
+FROM `telco-metrics-473116.telco_metrics_curated.payments`
