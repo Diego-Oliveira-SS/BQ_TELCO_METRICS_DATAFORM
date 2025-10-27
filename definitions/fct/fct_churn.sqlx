@@ -1,0 +1,15 @@
+config {
+    type: "view",
+    tags: ["fact"]
+}
+
+SELECT
+  c.ID_CLIENTE,
+  c.DT_CHURN,
+  c.TIPO_CHURN,
+  cu.PLANO,
+  cu.UF,
+  cu.CANAL
+FROM ${ref("stg_churn")} c
+LEFT JOIN ${ref("stg_customers")} cu
+  ON c.ID_CLIENTE = cu.ID_CLIENTE

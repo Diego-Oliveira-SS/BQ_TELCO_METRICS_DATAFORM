@@ -1,6 +1,6 @@
 {
   "warehouse": "bigquery",
   "defaultDatabase": "telco-metrics-473116",
-  "defaultSchema": "dataform_demo",
+  "defaultSchema": "tm_analytics",
   "assertionSchema": "dataform_assertions"
 }

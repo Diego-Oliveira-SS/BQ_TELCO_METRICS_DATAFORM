@@ -1,0 +1,18 @@
+config {
+    type: "view",
+    tags: ["staging"]
+}
+
+SELECT
+  ID_INTERACAO,
+  ID_CLIENTE,
+  DT_INTERACAO,
+  MOTIVO1,
+  MOTIVO2,
+  MOTIVO3,
+  CANAL_ATENDIMENTO,
+  SLA_SEGUNDOS,
+  RESOLVIDO,
+  RETENCAO
+FROM
+  `telco-metrics-473116.telco_metrics_gold.ath`

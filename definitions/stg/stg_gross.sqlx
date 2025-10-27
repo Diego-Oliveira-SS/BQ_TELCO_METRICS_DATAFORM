@@ -1,0 +1,11 @@
+config {
+    type: "view",
+    tags: ["staging"]
+}
+
+SELECT
+  DT_REFERENCIA,
+  ID_CLIENTE,
+  TIPO_AQUISICAO,
+  PLANO
+FROM `telco-metrics-473116.telco_metrics_gold.gross`

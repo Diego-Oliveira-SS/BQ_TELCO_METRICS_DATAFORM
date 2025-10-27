@@ -1,0 +1,37 @@
+config {
+    type: "view",
+    tags: ["fact"]
+}
+
+WITH
+  base AS (
+  SELECT
+    b.ID_FATURA,
+    b.ID_CLIENTE,
+    b.DT_VENCIMENTO,
+    b.VALOR_BASE,
+    p.DT_PAGAMENTO,
+    p.VALOR_PAGO,
+    p.FORMA_PAGAMENTO,
+    CASE
+      WHEN p.ID_PAGAMENTO IS NOT NULL THEN 'PAGO'
+      WHEN CURRENT_DATE() > b.DT_VENCIMENTO THEN 'EM_ATRASO'
+      ELSE 'EM_ABERTO'
+  END
+    AS STATUS_PAGAMENTO,
+    CASE
+      WHEN p.DT_PAGAMENTO IS NOT NULL THEN DATE_DIFF(p.DT_PAGAMENTO, b.DT_VENCIMENTO, DAY)
+      WHEN CURRENT_DATE() > b.DT_VENCIMENTO THEN DATE_DIFF(CURRENT_DATE(), b.DT_VENCIMENTO, DAY)
+      ELSE 0
+  END
+    AS DIAS_ATRASO
+  FROM
+    ${ref("stg_billing")} b
+  LEFT JOIN
+    ${ref("stg_payments")} p
+  ON
+    b.ID_FATURA = p.ID_FATURA )
+SELECT
+  *
+FROM
+  base

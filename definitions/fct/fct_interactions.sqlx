@@ -1,0 +1,17 @@
+config {
+    type: "view",
+    tags: ["fact"]
+}
+
+SELECT
+  a.ID_INTERACAO,
+  a.ID_CLIENTE,
+  a.DT_INTERACAO,
+  a.MOTIVO1,
+  a.MOTIVO2,
+  a.MOTIVO3,
+  a.CANAL_ATENDIMENTO,
+  a.SLA_SEGUNDOS,
+  a.RESOLVIDO,
+  a.RETENCAO
+FROM ${ref("stg_ath")} a

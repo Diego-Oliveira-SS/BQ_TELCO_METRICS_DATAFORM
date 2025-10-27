@@ -1,0 +1,13 @@
+config {
+    type: "view",
+    tags: ["staging"]
+}
+
+SELECT
+  ID_PAGAMENTO,
+  ID_FATURA,
+  ID_CLIENTE,
+  DT_PAGAMENTO,
+  VALOR_PAGO,
+  FORMA_PAGAMENTO
+FROM `telco-metrics-473116.telco_metrics_gold.payments`

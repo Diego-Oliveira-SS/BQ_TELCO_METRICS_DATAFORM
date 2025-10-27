@@ -1,0 +1,13 @@
+config { 
+    type: "assertion", 
+    tags: ["assertion"] 
+}
+
+SELECT 'stg_customers.ID_CLIENTE' AS erro
+WHERE EXISTS (SELECT 1 FROM ${ref("stg_customers")} WHERE ID_CLIENTE IS NULL)
+UNION ALL
+SELECT 'stg_billing.ID_FATURA'
+WHERE EXISTS (SELECT 1 FROM ${ref("stg_billing")} WHERE ID_FATURA IS NULL)
+UNION ALL
+SELECT 'stg_payments.ID_PAGAMENTO'
+WHERE EXISTS (SELECT 1 FROM ${ref("stg_payments")} WHERE ID_PAGAMENTO IS NULL)
