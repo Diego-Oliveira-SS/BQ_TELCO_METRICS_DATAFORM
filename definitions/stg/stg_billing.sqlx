@@ -7,7 +7,6 @@ SELECT
   ID_FATURA,
   ID_CLIENTE,
   DT_VENCIMENTO,
-  VALOR_BASE,
-  STATUS_FATURA
+  VALOR_BASE
 FROM
   `telco-metrics-473116.telco_metrics_curated.billing`

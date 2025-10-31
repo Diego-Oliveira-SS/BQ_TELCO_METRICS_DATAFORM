@@ -10,9 +10,6 @@ SELECT
   MOTIVO1,
   MOTIVO2,
   MOTIVO3,
-  CANAL_ATENDIMENTO,
-  SLA_SEGUNDOS,
-  RESOLVIDO,
   RETENCAO
 FROM
   `telco-metrics-473116.telco_metrics_curated.ath`

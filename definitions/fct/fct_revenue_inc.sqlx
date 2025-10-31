@@ -1,10 +1,12 @@
 config {
   type: "incremental",
-  uniqueKey: ["ID_FATURA"],                 /* chave natural da fatura */
+  uniqueKey: ["ID_FATURA"],
   tags: ["fact"],
+  database: "telco-metrics-473116",
+  schema: "tm_analytics",
   bigquery: {
-    partitionBy: "DATE(_CUT_DT)",         /* partição por data de corte */
-    clusterBy: ["ID_CLIENTE"]             /* clustering útil p/ consultas por cliente */
+    partitionBy: "_CUT_DT",          /* _CUT_DT já é DATE */
+    clusterBy: ["ID_CLIENTE"]
   }
 }
 
@@ -17,7 +19,7 @@ WITH base AS (
     b.VALOR_BASE,
     p.DT_PAGAMENTO,
     p.VALOR_PAGO,
-    p.FORMA_PAGAMENTO,
+    p.METODO_PAGAMENTO,
     CASE
       WHEN p.ID_PAGAMENTO IS NOT NULL THEN 'PAGO'
       WHEN CURRENT_DATE() > b.DT_VENCIMENTO THEN 'EM_ATRASO'
@@ -29,8 +31,7 @@ WITH base AS (
       ELSE 0
     END AS DIAS_ATRASO,
 
-    /* Data de corte para particionar/filtrar incremental:
-       usa a mais recente entre vencimento e pagamento */
+    /* Data de corte para particionar/filtrar incremental: mais recente entre vencimento e pagamento */
     GREATEST(
       DATE(b.DT_VENCIMENTO),
       DATE(IFNULL(p.DT_PAGAMENTO, b.DT_VENCIMENTO))
@@ -40,8 +41,9 @@ WITH base AS (
     ON b.ID_FATURA = p.ID_FATURA
 )
 
+/* 1º run: carrega tudo. Runs incrementais: só últimos 3 dias (ajuste conforme sua necessidade) */
 SELECT * FROM base
 ${when(
   incremental(),
-  "WHERE DATE(_CUT_DT) >= (SELECT IFNULL(DATE_SUB(MAX(DATE(_CUT_DT)), INTERVAL 3 DAY), DATE '1970-01-01') FROM " + self() + ")"
+  "WHERE _CUT_DT >= DATE_SUB(CURRENT_DATE(), INTERVAL 3 DAY)"
 )}

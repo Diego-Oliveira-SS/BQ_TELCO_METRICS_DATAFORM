@@ -1,7 +1,0 @@
-config {
-    type: "view",
-    schema: "dataform_demo"
-}
-
-SELECT
-  1 AS exemplo

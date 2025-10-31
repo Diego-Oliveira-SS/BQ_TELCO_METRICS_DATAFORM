@@ -7,8 +7,8 @@ SELECT
   ID_CLIENTE,
   DT_ENTRADA,
   STATUS,
-  PLANO,
+  NOME_PLANO,
   UF,
   DDD,
-  CANAL
+  CANAL_AQUISICAO
 FROM `telco-metrics-473116.telco_metrics_curated.customers`

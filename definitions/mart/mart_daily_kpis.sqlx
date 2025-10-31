@@ -1,56 +1,52 @@
-config { type: "view", tags: ["mart"] }
+config { 
+  type: "view", 
+  tags: ["mart"]
+}
 
 WITH base_datas AS (
-  SELECT DT_VENCIMENTO AS D FROM ${ref("stg_billing")}
-  UNION DISTINCT SELECT DT_PAGAMENTO AS D FROM ${ref("stg_payments")}
-  UNION DISTINCT SELECT DT_CHURN AS D FROM ${ref("stg_churn")}
-  UNION DISTINCT SELECT DT_INTERACAO AS D FROM ${ref("stg_ath")}
-),
-gross_d AS (
-  SELECT DT_REFERENCIA AS D, COUNT(DISTINCT ID_CLIENTE) AS GROSS_QTDE
-  FROM ${ref("stg_gross")}
-  GROUP BY 1
+  SELECT DATE(DT_VENCIMENTO) AS D FROM ${ref("stg_billing")}
+  UNION DISTINCT SELECT DATE(DT_PAGAMENTO) AS D FROM ${ref("stg_payments")}
+  UNION DISTINCT SELECT DATE(DT_CHURN) AS D FROM ${ref("stg_churn")}
+  UNION DISTINCT SELECT DATE(DT_INTERACAO) AS D FROM ${ref("stg_ath")}
 ),
 billing_d AS (
-  SELECT DT_VENCIMENTO AS D,
+  SELECT DATE(DT_VENCIMENTO) AS D,
          COUNT(DISTINCT ID_FATURA) AS FATURAS_QTDE,
          SUM(VALOR_BASE) AS FATURAS_VALOR
   FROM ${ref("stg_billing")}
   GROUP BY 1
 ),
 payments_d AS (
-  SELECT DT_PAGAMENTO AS D,
+  SELECT DATE(DT_PAGAMENTO) AS D,
          COUNT(DISTINCT ID_PAGAMENTO) AS PAGTOS_QTDE,
          SUM(VALOR_PAGO) AS PAGTOS_VALOR
   FROM ${ref("stg_payments")}
   GROUP BY 1
 ),
 churn_d AS (
-  SELECT DT_CHURN AS D,
+  SELECT DATE(DT_CHURN) AS D,
          COUNT(DISTINCT ID_CLIENTE) AS CHURN_QTDE
   FROM ${ref("stg_churn")}
   GROUP BY 1
 ),
 ath_d AS (
-  SELECT DT_INTERACAO AS D,
-         COUNT(1) AS INTERACOES_QTDE,
-         SUM(CASE WHEN RETENCAO = 1 OR RETENCAO = TRUE THEN 1 ELSE 0 END) AS RETENCOES_QTDE
+  SELECT DATE(DT_INTERACAO) AS D,
+         /* duas opções OK; escolha uma: */
+         -- SUM(CAST(RETENCAO AS INT64)) AS RETENCOES_QTDE
+         SUM(CASE WHEN RETENCAO THEN 1 ELSE 0 END) AS RETENCOES_QTDE
   FROM ${ref("stg_ath")}
   GROUP BY 1
 )
 SELECT
   b.D AS DATA,
-  COALESCE(g.GROSS_QTDE, 0) AS GROSS_QTDE,
   COALESCE(bi.FATURAS_QTDE, 0) AS FATURAS_QTDE,
   COALESCE(bi.FATURAS_VALOR, 0) AS FATURAS_VALOR,
   COALESCE(p.PAGTOS_QTDE, 0) AS PAGTOS_QTDE,
   COALESCE(p.PAGTOS_VALOR, 0) AS PAGTOS_VALOR,
   COALESCE(ch.CHURN_QTDE, 0) AS CHURN_QTDE,
-  COALESCE(a.INTERACOES_QTDE, 0) AS INTERACOES_QTDE,
   COALESCE(a.RETENCOES_QTDE, 0) AS RETENCOES_QTDE
 FROM base_datas b
-LEFT JOIN gross_d g   ON b.D = g.D
-LEFT JOIN billing_d bi ON b.D = bi.D
-LEFT JOIN payments_d p ON b.D = p.D
-LEFT JOIN churn_d ch  ON b.D = ch.D
-LEFT JOIN ath_d a     ON b.D = a.D
+LEFT JOIN billing_d  bi ON b.D = bi.D
+LEFT JOIN payments_d p  ON b.D = p.D
+LEFT JOIN churn_d   ch  ON b.D = ch.D
+LEFT JOIN ath_d     a   ON b.D = a.D
