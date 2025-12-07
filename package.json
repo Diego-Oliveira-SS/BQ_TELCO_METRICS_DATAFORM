@@ -1,0 +1,10 @@
+{
+  "name": "bq_telco_metrics",
+  "version": "1.0.0",
+  "private": true,
+    "dependencies": {
+    "@dataform/core": "latest",
+    "rimraf": "latest"
+  }
+}
+
