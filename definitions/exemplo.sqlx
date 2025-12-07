@@ -1,2 +1,7 @@
-config { type: "view", schema: "dataform_demo" }
-SELECT 1 AS exemplo;
+config {
+    type: "table",
+    schema: "dataform_demo"
+}
+
+SELECT
+  1 AS exemplo;
