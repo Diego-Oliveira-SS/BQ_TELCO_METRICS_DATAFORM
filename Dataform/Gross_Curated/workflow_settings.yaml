@@ -1,0 +1,4 @@
+defaultProject: telco-metrics-473116
+defaultDataset: dataform
+defaultAssertionDataset: dataform_assertions
+dataformCoreVersion: 3.0.26
